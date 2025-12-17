@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Playable — HONEY TOON</title>
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      background: #fff;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .stage {
+      width: 100vw;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #000;
+      overflow: auto; 
+    }
+
+  .frame {
+    width: 360px;
+    height: 640px;
+    position: relative;
+    overflow: hidden;
+    margin: auto;
+    box-shadow: 0 12px 30px rgba(0,0,0,.6);
+    background: linear-gradient(180deg,#000,#111);
+  }
+
+.splash { 
+position: absolute;
+inset: 0; display: flex;
+flex-direction: column; 
+align-items: center; 
+justify-content: flex-start;
+  background: transparent; 
+  z-index: 30; 
+  padding-top: 60px;
+  } 
+.splash-bg {
+  position: absolute; 
+  inset: 0; 
+  background: url('assets/splash-bg.png') center/cover no-repeat; 
+  z-index: -1; 
+} 
+.branding {
+    display: flex; 
+    flex-direction: column; 
+    align-items: center;
+    gap: 12px; 
+    margin-bottom: 40px; 
+  } 
+.logo { 
+  width: 220px; 
+  height: 220px;
+    background: url('assets/logo.png') center/contain no-repeat; 
+  } 
+.age-badge { 
+  width: 200px; 
+  height: 200px;
+    background: url('assets/18plus.png') center/contain no-repeat; 
+    margin-top: -80px;
+  } 
+.start-btn {
+    background: none;
+    border: none; 
+    padding: 0; 
+    cursor: pointer;
+      position: relative; 
+      z-index: 10; 
+    } 
+.start-btn img { 
+  width: 240px; 
+  height: auto; 
+  display: block; 
+} 
+.hand {
+    position: absolute;
+    bottom: 40px; 
+    left: calc(50% + 80px); 
+    width: 80px; z-index: 5;
+      animation: handMove 2s infinite ease-in-out; 
+    }
+
+@keyframes handMove {
+  0% {
+    transform: translate(0, 0);
+    opacity: 0.7;
+  }
+  50% {
+    transform: translate(-50%, -80px);  
+    opacity: 1;
+  }
+  100% {
+    transform: translate(0, 0);
+    opacity: 0.7;
+  }
+}
+@keyframes pulse {
+   0%   { transform: translateX(-50%) scale(1.25); }
+  50%  { transform: translateX(-50%) scale(1.3); }
+  100% { transform: translateX(-50%) scale(1.25); } /* фінальне збільшення на 25% */
+}
+
+.cta.scaling {
+  animation: pulse 1s infinite ease-in-out;
+}
+
+
+
+    /* Автоматичне масштабування тільки на вузьких екранах */
+    @media (max-width:1080px) {
+      .frame {
+        transform: scale(calc(100vw / 1080));
+        transform-origin: top center;
+      }
+    }
+
+    /* Адаптація для дуже маленьких екранів */
+    @media (max-width:420px) {
+      .frame { width:360px; height:640px; }
+      .logo { width:240px; height:80px; }
+      .start-btn { font-size:20px; padding:12px 20px; }
+      .comic-wrap { padding:20px; }
+      .comic { width:320px; }
+      .cta { font-size:18px; padding:12px 20px; }
+    }
+
+    
+    
+   .start-btn {
+    background: none;       
+    border: none;          
+    padding: 0;
+    cursor: pointer;
+    position: absolute;
+    bottom: 160px;          
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 32;
+}
+
+.start-btn img {
+  width: 220px;           
+  height: auto;
+  display: block;
+}
+
+
+  .comic-wrap {
+  position: absolute;
+  inset: 0;
+  overflow-y: auto;       
+  overflow-x: hidden;     
+  -webkit-overflow-scrolling: touch;
+  padding: 0;            
+  box-sizing: border-box;
+  display: none;
+}
+
+.comic {
+  width: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;               
+}
+
+.comic img {
+ width: calc(100% + 2px);            
+  height: auto;
+  display: block;
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: 0;       
+  background: none;      
+  object-fit: cover;    
+  margin-bottom: -1px;  
+  margin-right: -4px;
+}
+
+
+
+.cta {
+  position: fixed;              
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 60px;
+  background: none;           
+  border: none;                
+  padding: 0;
+  cursor: pointer;
+  display: none;               
+  z-index: 999;                 
+}
+
+.cta img {
+  width: 260px;               
+  height: auto;
+  display: block;
+}
+
+
+    
+  </style>
+</head>
+<body>
+  <div class="stage">
+    <div class="frame" id="frame">
+
+      <!-- Splash -->
+     <div class="splash" id="splash">
+        <div class="splash-bg" aria-hidden="true"></div>
+
+        <div class="branding">
+          <div class="logo" aria-hidden="true"></div>
+          <div class="age-badge" aria-hidden="true"></div>
+      </div>
+
+        <button class="start-btn" id="startBtn">
+          <img src="assets/start-btn.png" alt="Start" />
+        </button>
+        <img src="assets/hand-pointer.png" alt="hand pointer" class="hand" />
+
+       </div>
+
+
+      <!-- Comic -->
+      <div class="comic-wrap" id="comicWrap" aria-hidden="true" tabindex="0">
+        <div class="comic" id="comic"></div>
+      </div>
+
+      <!-- CTA -->
+      <button class="cta" id="ctaBtn" aria-hidden="true">
+        <img src="assets/cta-btn.png" alt="Read more" />
+      </button>
+
+
+    </div>
+  </div>
+
+  <script>
+    const FRAMES = 39;
+    const ASSET_PATH = 'assets/comic/';
+    const FILE_PREFIX = (i) => `img - ${String(i).padStart(2,'0')}.webp`;
+
+    const splash = document.getElementById('splash');
+    const startBtn = document.getElementById('startBtn');
+    const comic = document.getElementById('comic');
+    const comicWrap = document.getElementById('comicWrap');
+    const ctaBtn = document.getElementById('ctaBtn');
+    const progressBar = document.getElementById('progressBar');
+
+    // placeholders
+    for(let i=1;i<=FRAMES;i++){
+      const img=document.createElement('img');
+      img.setAttribute('data-src',ASSET_PATH+FILE_PREFIX(i));
+      img.alt=`comic frame ${i}`;
+      img.loading='lazy';
+      comic.appendChild(img);
+    }
+
+    function getClickTagMid(){
+      return 'https://honeytoon.com/comic/teach-me-first-ak/1'; // посилання поки не дочитав
+    }
+
+    function getClickTagEnd(){
+      return 'https://honeytoon.com/comic/teach-me-first-ak/2'; // посилання коли дочитав до кінця
+    }
+
+    ctaBtn.addEventListener('click',()=>{
+      if(ctaBtn.classList.contains('scaling')){
+        // якщо кнопка вже у фінальному стані (кінець коміксу)
+        window.open(getClickTagEnd(),'_blank');
+      } else {
+        // якщо ще не дочитав
+        window.open(getClickTagMid(),'_blank');
+      }
+    });
+
+    function updateProgress(){
+      const scrollTop = comicWrap.scrollTop;
+      const scrollHeight = comicWrap.scrollHeight - comicWrap.clientHeight;
+      const pct = scrollHeight > 0 ? Math.min(100, Math.round((scrollTop/scrollHeight)*100)) : 0;
+
+      // показати кнопку після початку скролу
+      if(scrollTop > 20){ 
+        ctaBtn.style.display = 'block';
+        ctaBtn.removeAttribute('aria-hidden');
+      }
+
+      // коли досягнуто кінця — додати анімацію і змінити логіку
+      if(pct >= 98){
+        ctaBtn.classList.add('scaling'); // тепер кнопка веде на інше посилання
+      }
+    }
+
+
+
+    ctaBtn.addEventListener('click',()=>window.open(getClickTag(),'_blank'));
+
+    startBtn.addEventListener('click',()=>{
+      splash.style.display='none';
+      comicWrap.style.display='block';
+      comicWrap.removeAttribute('aria-hidden');
+      comicWrap.focus();
+
+      const imgs=Array.from(document.querySelectorAll('#comic img'));
+      // preload first frames
+      for(let i=0;i<Math.min(3,imgs.length);i++){
+        if(!imgs[i].src) imgs[i].src=imgs[i].dataset.src;
+      }
+
+      if('IntersectionObserver' in window){
+        const io=new IntersectionObserver((entries)=>{
+          entries.forEach(entry=>{
+            if(entry.isIntersecting){
+              const img=entry.target;
+              if(!img.src){
+                img.src=img.dataset.src;
+                img.addEventListener('load',()=>{img.style.minHeight='';});
+              }
+              io.unobserve(img);
+            }
+          });
+        },{root:comicWrap,rootMargin:'600px 0px 600px 0px',threshold:0.01});
+        imgs.forEach(i=>io.observe(i));
+      }else{
+        // fallback
+        let loadedUpTo=2;
+        const eagerLoad=()=>{
+          const bottomIndex=Math.min(imgs.length-1,loadedUpTo+5);
+          for(let i=loadedUpTo;i<=bottomIndex;i++){
+            if(imgs[i]&&!imgs[i].src) imgs[i].src=imgs[i].dataset.src;
+          }
+          loadedUpTo=bottomIndex+1;
+        };
+        eagerLoad();
+        comicWrap.addEventListener('scroll',eagerLoad,{passive:true});
+      }
+
+      updateProgress();
+    });
+
+    let ticking=false;
+    comicWrap.addEventListener('scroll',()=>{
+      if(!ticking){
+        requestAnimationFrame(()=>{updateProgress();ticking=false;});
+        ticking=true;
+      }
+    });
+
+    comicWrap.addEventListener('keydown',(e)=>{
+      if(e.key===' '){e.preventDefault();comicWrap.scrollBy({top:comicWrap.clientHeight*0.8,behavior:'smooth'});}
+      if(e.key==='ArrowDown'){comicWrap.scrollBy({top:200,behavior:'smooth'});}
+      if(e.key==='ArrowUp'){comicWrap.scrollBy({top:-200,behavior:'smooth'});}
+    });
+
+    window.addEventListener('load',()=>{
+      const first=document.querySelector('#comic img');
+      if(first&&!first.src) first.src=first.dataset.src;
+    });
+  </script>
+</body>
+</html>
