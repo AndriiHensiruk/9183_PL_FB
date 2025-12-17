@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Playable — HONEY TOON</title>
   <style>
-    html, body {
+       html, body {
       height: 100%;
       margin: 0;
       background: #fff;
@@ -35,31 +35,43 @@
     background: linear-gradient(180deg,#000,#111);
   }
 
-.splash { 
-position: absolute;
-inset: 0; display: flex;
-flex-direction: column; 
-align-items: center; 
-justify-content: flex-start;
-  background: transparent; 
-  z-index: 30; 
-  padding-top: 40px;
-  } 
+  .splash {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  background: transparent;
+  z-index: 30;
+  padding-top: 60px; 
+}
+
 .splash-bg {
-  position: absolute; 
-  inset: 0; 
-  background: url('assets/splash-bg.png') center/cover no-repeat; 
-  z-index: -1; 
-} 
+  position: absolute;
+  inset: 0;
+  background: url('assets/splash-bg.png') center/cover no-repeat;
+  z-index: -1;
+}
+.hand {
+  position: absolute;
+  bottom: 40px;          /* той самий рівень, що й кнопка */
+  left: calc(40% + 80px); /* трохи правіше від кнопки */
+  width: 80px;
+  z-index: 5;
+  animation: handMove 2s infinite ease-in-out;
+}
+
+
 .logo {
-  width:200px;
-  height: 190px;
+  width:170px;
+  height: 160px;
   background: url('assets/logo.png') center/contain no-repeat;
 }
 
 .age-badge {
-  width: 150px;
-  height: 150px;
+  width: 130px;
+  height: 130px;
   background: url('assets/18plus.png') center/contain no-repeat;
 }
 
@@ -69,26 +81,6 @@ justify-content: flex-start;
   align-items: center;
   gap: 5px;
 }
-.start-btn {
-    background: none;
-    border: none; 
-    padding: 0; 
-    cursor: pointer;
-      position: relative; 
-      z-index: 10; 
-    } 
-.start-btn img { 
-  width: 240px; 
-  height: auto; 
-  display: block; 
-} 
-.hand {
-    position: absolute;
-    bottom: 40px; 
-    left: calc(50% + 80px); 
-    width: 80px; z-index: 5;
-      animation: handMove 2s infinite ease-in-out; 
-    }
 
 @keyframes handMove {
   0% {
@@ -209,8 +201,6 @@ justify-content: flex-start;
   display: block;
 }
 
-
-    
   </style>
 </head>
 <body>
