@@ -73,6 +73,7 @@
   width: 160px;
   height: 160px;
   background: url('assets/18plus.png') center/contain no-repeat; 
+  margin-top: -20px; /* підняти бейдж */
 }
 
 .branding {
@@ -200,6 +201,17 @@
   height: auto;
   display: block;
 }
+/* Анімація підказки для першої картинки */
+.comic img:first-child {
+  animation: floatHint 2s infinite ease-in-out;
+}
+
+@keyframes floatHint {
+  0%   { transform: translateY(0); }
+  50%  { transform: translateY(-12px); } /* рух вгору */
+  100% { transform: translateY(0); }     /* назад вниз */
+}
+
 
   </style>
 </head>
@@ -260,11 +272,11 @@
     }
 
     function getClickTagMid(){
-      return 'https://honeytoon.com/comic/teach-me-first-ak/1'; // посилання поки не дочитав
+      return 'https://honeytoon.com/comic/teach-me-first/prologue'; // посилання поки не дочитав
     }
 
     function getClickTagEnd(){
-      return 'https://honeytoon.com/comic/teach-me-first-ak/2'; // посилання коли дочитав до кінця
+      return 'https://honeytoon.com/comic/teach-me-first/1'; // посилання коли дочитав до кінця
     }
 
     ctaBtn.addEventListener('click',()=>{
@@ -359,6 +371,13 @@
       const first=document.querySelector('#comic img');
       if(first&&!first.src) first.src=first.dataset.src;
     });
+    comicWrap.addEventListener('scroll', () => {
+  const firstImg = comic.querySelector('img:first-child');
+  if (firstImg) {
+    firstImg.style.animation = 'none'; // зупиняємо анімацію
+  }
+});
+
   </script>
 </body>
 </html>
